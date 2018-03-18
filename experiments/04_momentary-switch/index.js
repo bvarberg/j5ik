@@ -6,9 +6,10 @@ const board = new five.Board({
 });
 
 board.on('ready', () => {
+  const led = new five.Led('a5');
   const button = new five.Button('a2');
 
-  button.on('press', () => console.log('Button pressed.'));
-  button.on('release', () => console.log('Button released.'));
+  button.on('press', () => led.on());
+  button.on('release', () => led.off());
 });
 

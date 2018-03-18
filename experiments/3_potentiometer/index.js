@@ -1,12 +1,26 @@
+const Barcli = require('barcli');
 const Tessel = require('tessel-io');
 const five = require('johnny-five');
 
 const board = new five.Board({
   io: new Tessel(),
+  repl: false,
+  debug: false,
 });
 
 board.on('ready', () => {
-  const sensor = new five.Sensor('a7');
+  const range = [0, 100];
+  const graph = new Barcli({
+    label: 'Potentiometer',
+    range: range,
+  });
 
-  sensor.on('change', () => console.log(sensor.value));
+  const sensor = new five.Sensor({
+    pin: 'a7',
+    threshold: 5,
+  });
+
+  sensor.on('change', () => {
+    graph.update(sensor.scaleTo(range));
+  })
 })

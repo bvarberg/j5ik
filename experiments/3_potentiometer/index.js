@@ -20,7 +20,11 @@ board.on('ready', () => {
     threshold: 5,
   });
 
+  const led = new five.Led('b5');
+
   sensor.on('change', () => {
     graph.update(sensor.scaleTo(range));
-  })
-})
+    led.brightness(sensor.scaleTo(0, 255));
+  });
+});
+
